@@ -1,0 +1,103 @@
+﻿@model CreateRequestDto
+@{
+    ViewData["Title"] = "New Vacation Request";
+}
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Create Vacation Request</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+
+        <form method="post">
+            <div class="row" style="max-height: 500px; overflow-y: auto;">
+                <div class="border-3 col-12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="form-floating py-2 col-6">
+                            <input asp-for="EmployeeName" class="form-control border-0 shadow" />
+                            <label asp-for="EmployeeName" class="ms-2"></label>
+                            <span asp-validation-for="EmployeeName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating py-2 col-6">
+                            <input asp-for="Title" class="form-control border-0 shadow" />
+                            <label asp-for="Title" class="ms-2"></label>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-floating py-2 col-12">
+                            <select asp-for="DepartmentId" asp-items="@(ViewBag.Departments)" class="form-control border-0 shadow">
+                                <option disabled selected>Select Department</option>
+                            </select>
+                            <label asp-for="DepartmentId" class="ms-2"></label>
+                            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="form-floating py-2 col-6">
+                            <input asp-for="VacationDateFrom" type="date" class="form-control border-0 shadow" />
+                            <label asp-for="VacationDateFrom" class="ms-2"></label>
+                            <span asp-validation-for="VacationDateFrom" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating py-2 col-6">
+                            <input asp-for="VacationDateTo" type="date" class="form-control border-0 shadow" />
+                            <label asp-for="VacationDateTo" class="ms-2"></label>
+                            <span asp-validation-for="VacationDateTo" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="py-2 col-12">
+                            <label asp-for="Notes" class="ms-2 text-muted"></label>
+                            <textarea asp-for="Notes" class="form-control border-0 shadow" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row pt-2">
+                <div class="col-6 col-md-3">
+                    <button type="submit" class="btn btn-primary form-control">Create Request</button>
+                </div>
+                <div class="col-6 col-md-3">
+                    <a asp-controller="Requests" asp-action="Index" class="btn btn-outline-primary border form-control">
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Set minimum date for vacation start date to today
+            var today = new Date().toISOString().split('T')[0];
+            $('#VacationDateFrom').attr('min', today);
+
+            // Update minimum date for vacation end date when start date changes
+            $('#VacationDateFrom').change(function () {
+                $('#VacationDateTo').attr('min', $(this).val());
+                if ($('#VacationDateTo').val() && $('#VacationDateTo').val() < $(this).val()) {
+                    $('#VacationDateTo').val($(this).val());
+                }
+            });
+        });
+    </script>
+}

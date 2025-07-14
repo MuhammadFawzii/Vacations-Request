@@ -1,0 +1,6 @@
+@Vacation_HostAddress = http://localhost:5105
+
+GET {{Vacation_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

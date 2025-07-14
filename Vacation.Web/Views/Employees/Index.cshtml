@@ -1,0 +1,72 @@
+﻿@model IEnumerable<EmployeeDto>
+@{
+    ViewData["Title"] = "Employees Table";
+}
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Employees Table</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="row pt-0 pb-3">
+            <div class="col-12 text-end">
+                <a asp-controller="Employees" asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle-dotted"></i> Add New Vacation Request</a>
+            </div>
+        </div>
+        <table id="tblData" class="table table-bordered table-striped " style="width:100%">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name </th>
+                    <th>Title </th>
+                    <th>Department </th>
+                    <th>Email </th>
+                    <th>Actions</th>
+                    
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Title</td>
+                        <td>@item.DepartmentName</td>
+                        <td>@item.Email</td>
+                    
+                        <td class="text-center">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="bi bi-info-circle"></i> Details</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning ">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger ">
+                                <i class="bi btn-info"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+
+                }
+
+            </tbody>
+
+
+
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "responsive": true,
+                "autoWidth": false,
+                "order": [[1, "desc"]]
+            });
+        });
+    </script>
+}
